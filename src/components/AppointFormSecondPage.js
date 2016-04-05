@@ -1,21 +1,67 @@
-import React, { PropTypes } from 'react';
-import { Link } from 'react-router';
+import React, {Component, PropTypes} from 'react';
+import {reduxForm} from 'redux-form';
+export const fields = ['arg', 'sex'];
 
-const AppointmentFormSecondPage = ({onChangePage, appState}) => {
-  return (
-    <div className="panel panel-default">
-      <div className="panel-body">
-        <div>Page 2</div>
-        <button className="btn btn-primary" type="button" onClick={() => onChangePage(appState.page - 1)}>Back</button>
-        <button className="btn btn-primary" type="button" onClick={() => onChangePage(appState.page + 1)}>Next</button>
-      </div>
-    </div>
-  );
+const validate = values => {
+  const errors = {};
+  if (!values.arg) {
+    errors.arg = 'Required';
+  }
+  if (!values.sex) {
+    errors.sex = 'Required';
+  }
+  return errors;
 };
 
-AppointmentFormSecondPage.propTypes = {
-  onChangePage: PropTypes.func.isRequired,
-  appState: PropTypes.object.isRequired
-};
+class AppointFormSecondPage extends Component {
+  static propTypes = {
+    fields: PropTypes.object.isRequired,
+    handleSubmit: PropTypes.func.isRequired,
+    previousPage: PropTypes.func.isRequired
+  };
 
-export default AppointmentFormSecondPage;
+  render() {
+    const {
+      fields: {arg, sex},
+      handleSubmit,
+      previousPage
+      } = this.props;
+    return (<form onSubmit={handleSubmit}>
+        <div>
+          <label>arg</label>
+          <div>
+            <input type="text" placeholder="arg" {...arg}/>
+          </div>
+          {arg.touched && arg.error && <div>{arg.error}</div>}
+        </div>
+        <div>
+          <label>Sex</label>
+          <div>
+            <label>
+              <input type="radio" {...sex} value="male" checked={sex.value === 'male'}/> Male
+            </label>
+            <label>
+              <input type="radio" {...sex} value="female" checked={sex.value === 'female'}/> Female
+            </label>
+          </div>
+          {sex.touched && sex.error && <div>{sex.error}</div>}
+        </div>
+        <div>
+          <button type="button" onClick={previousPage}>
+            <i/> Previous
+          </button>
+          <button type="submit">
+            Next <i/>
+          </button>
+        </div>
+      </form>
+    );
+  }
+}
+
+export default reduxForm({
+  form: 'wizard',              // <------ same form name
+  fields,                      // <------ only fields on this page
+  destroyOnUnmount: false,     // <------ preserve form data
+  validate                     // <------ only validates the fields on this page
+})(AppointFormSecondPage);

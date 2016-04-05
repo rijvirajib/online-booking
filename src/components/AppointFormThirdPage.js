@@ -1,20 +1,71 @@
-import React, { PropTypes } from 'react';
-import { Link } from 'react-router';
+import React, {Component, PropTypes} from 'react';
+import {reduxForm} from 'redux-form';
+export const fields = ['firstName', 'lastName', 'email', 'arg', 'sex', 'favoriteColor', 'employed', 'notes'];
+// ^^ All fields on last form
 
-const AppointmentFormThirdPage = ({onChangePage, appState}) => {
-  return (
-    <div className="panel panel-default">
-      <div className="panel-body">
-        <div>Page 3</div>
-        <button className="btn btn-primary" type="button" onClick={() => onChangePage(appState.page - 1)}>Back</button>
-      </div>
-    </div>
-  );
+const validate = values => {
+  const errors = {};
+  if (!values.favoriteColor) {
+    errors.favoriteColor = 'Required';
+  }
+  return errors;
 };
 
-AppointmentFormThirdPage.propTypes = {
-  onChangePage: PropTypes.func.isRequired,
-  appState: PropTypes.object.isRequired
+class AppointFormThirdPage extends Component {
+  render() {
+    const {
+      fields: {favoriteColor, employed, notes},
+      handleSubmit,
+      previousPage,
+      submitting
+      } = this.props;
+    return (<form onSubmit={handleSubmit}>
+        <div>
+          <label>Favorite Color</label>
+          <div>
+            <select {...favoriteColor} value={favoriteColor.value || ''}>
+              <option></option>
+              <option value="ff0000">Red</option>
+              <option value="00ff00">Green</option>
+              <option value="0000ff">Blue</option>
+            </select>
+          </div>
+          {favoriteColor.touched && favoriteColor.error && <div>{favoriteColor.error}</div>}
+        </div>
+        <div>
+          <label>
+            <input type="checkbox" {...employed}/> Employed
+          </label>
+        </div>
+        <div>
+          <label>Notes</label>
+          <div>
+            <textarea {...notes} value={notes.value || ''}/>
+          </div>
+        </div>
+        <div>
+          <button type="button" disabled={submitting} onClick={previousPage}>
+            <i/> Previous
+          </button>
+          <button type="submit" disabled={submitting}>
+            {submitting ? <i/> : <i/>} Finish
+          </button>
+        </div>
+      </form>
+    );
+  }
+}
+
+AppointFormThirdPage.propTypes = {
+  fields: PropTypes.object.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
+  previousPage: PropTypes.func.isRequired,
+  submitting: PropTypes.bool.isRequired
 };
 
-export default AppointmentFormThirdPage;
+export default reduxForm({
+  form: 'appointments',              // <------ same form name
+  fields,                      // <------ all fields on last wizard page
+  destroyOnUnmount: false,     // <------ preserve form data
+  validate                     // <------ only validates the fields on this page
+})(AppointFormThirdPage);
