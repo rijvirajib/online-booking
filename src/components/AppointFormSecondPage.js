@@ -60,7 +60,7 @@ class AppointFormSecondPage extends Component {
 }
 
 export default reduxForm({
-  form: 'wizard',              // <------ same form name
+  form: 'appointments',              // <------ same form name
   fields,                      // <------ only fields on this page
   destroyOnUnmount: false,     // <------ preserve form data
   validate                     // <------ only validates the fields on this page

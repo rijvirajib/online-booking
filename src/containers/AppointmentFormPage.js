@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import {initialize} from 'redux-form';
 import * as actions from '../actions/AppointmentFormActions';
 import AppointFormFirstPage from '../components/AppointFormFirstPage';
 import AppointFormSecondPage from '../components/AppointFormSecondPage';
@@ -12,19 +13,19 @@ class AppointmentFormPage extends Component {
     super(props);
     this.nextPage = this.nextPage.bind(this);
     this.previousPage = this.previousPage.bind(this);
-    this.completeForm = this.completeForm.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  completeForm() {
-    this.props.actions.changePage(this.props.appState, 1);
+  handleSubmit(data) {
+    console.log('Submission received!', data);
   }
 
   nextPage() {
-    this.props.actions.changePage(this.props.appState, this.props.appState.page + 1);
+    this.props.changePage(this.props.appState, this.props.appState.page + 1);
   }
 
   previousPage() {
-    this.props.actions.changePage(this.props.appState, this.props.appState.page - 1);
+    this.props.changePage(this.props.appState, this.props.appState.page - 1);
   }
 
   render() {
@@ -33,15 +34,16 @@ class AppointmentFormPage extends Component {
       <div>
         {this.props.appState.page === 1 && <AppointFormFirstPage onSubmit={this.nextPage} appState={this.props.appState}/>}
         {this.props.appState.page === 2 && <AppointFormSecondPage previousPage={this.previousPage} onSubmit={this.nextPage}/>}
-        {this.props.appState.page === 3 && <AppointFormThirdPage previousPage={this.previousPage} onSubmit={this.nextPage}/>}
+        {this.props.appState.page === 3 && <AppointFormThirdPage previousPage={this.previousPage} onSubmit={this.handleSubmit}/>}
       </div>
     );
   }
 }
 
 AppointmentFormPage.propTypes = {
-  actions: PropTypes.object.isRequired,
-  appState: PropTypes.object.isRequired
+  changePage: PropTypes.func.isRequired,
+  appState: PropTypes.object.isRequired,
+  dispatch: PropTypes.func.isRequired
 };
 
 function mapStateToProps(state) {
@@ -52,7 +54,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(actions, dispatch)
+    ...bindActionCreators(actions, dispatch),
+    dispatch
   };
 }
 
