@@ -86,7 +86,8 @@ class AppointmentFormFirstPage extends Component {
 AppointmentFormFirstPage.propTypes = {
   appState: PropTypes.object.isRequired,
   fields: PropTypes.object.isRequired,
-  handleSubmit: PropTypes.func.isRequired
+  handleSubmit: PropTypes.func.isRequired,
+  dispatch: PropTypes.func.isRequired
 };
 
 export default reduxForm({
