@@ -17,7 +17,7 @@ class AppointmentFormPage extends Component {
   }
 
   handleSubmit(data) {
-    console.log('Submission received!', data);
+    //console.log('Submission received!', data);
   }
 
   nextPage() {
@@ -32,7 +32,7 @@ class AppointmentFormPage extends Component {
     const {page} = this.props.appState.page;
     return (
       <div>
-        {this.props.appState.page === 1 && <AppointFormFirstPage onSubmit={this.nextPage} appState={this.props.appState}/>}
+        {this.props.appState.page === 1 && <AppointFormFirstPage onSubmit={this.nextPage} appState={this.props.appState} selectCompany={this.props.selectCompany}/>}
         {this.props.appState.page === 2 && <AppointFormSecondPage previousPage={this.previousPage} onSubmit={this.nextPage}/>}
         {this.props.appState.page === 3 && <AppointFormThirdPage previousPage={this.previousPage} onSubmit={this.handleSubmit}/>}
       </div>
@@ -42,6 +42,7 @@ class AppointmentFormPage extends Component {
 
 AppointmentFormPage.propTypes = {
   changePage: PropTypes.func.isRequired,
+  selectCompany: PropTypes.func.isRequired,
   appState: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired
 };

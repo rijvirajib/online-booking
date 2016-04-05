@@ -2,7 +2,11 @@ import React, { Component, PropTypes } from 'react';
 import {reduxForm} from 'redux-form';
 import { Link } from 'react-router';
 import { isEmail } from 'validator';
-export const fields = ['firstName', 'lastName', 'email'];
+import _ from 'lodash';
+import AppointmentFormDateTimePicker from './AppointmentFormDateTimePicker';
+const Typeahead = require('react-typeahead').Typeahead;
+export const fields = ['firstName', 'lastName', 'email', 'companyName'];
+export const companiesArray = ['American Express', 'Master Card', 'VISA', 'Discover', 'Federal Express', 'UPS'];
 
 const validate = values => {
   const errors = {};
@@ -21,13 +25,33 @@ const validate = values => {
   } else if (!isEmail(values.email)) {
     errors.email = 'Email is invalid';
   }
+
+  if(!values.companyName) {
+    errors.companyName = 'Required';
+  }
   return errors;
 };
 
 class AppointmentFormFirstPage extends Component {
+  constructor(props) {
+    super(props);
+    this.setCompany = this.setCompany.bind(this);
+  }
+
+  setCompany(e) {
+    let value = e.target.value;
+    if(companiesArray.indexOf(value) !== -1) {
+      this.props.selectCompany(this.props.appState, value);
+    }
+  }
+
+  revealPicker(companyName) {
+
+  }
+
   render() {
     const {
-      fields: {firstName, lastName, email},
+      fields: {firstName, lastName, email, companyName},
       handleSubmit
     } = this.props;
     return (
@@ -59,13 +83,29 @@ class AppointmentFormFirstPage extends Component {
               <div className="col-lg-6 col-xs-12">
                 <label htmlFor="your-company">Find your company</label>
                 <i className="light-text">Start typing to find your company</i>
-                <div className="input-group">
-                  <span className="input-group-addon" id="sizi"><i className="fa fa-search"></i></span>
-                  <input autoComplete="off" className="form-control" id="your-company" placeholder="Company name..." type="text"/>
-                </div>
+                <Typeahead
+                  ref="typeahead"
+                  onChange={this.setCompany}
+                  className="form-group"
+                  name= "companyName"
+                  customClasses={
+                    { input: 'form-control' }
+                  }
+                  inputProps = {
+                    { autoComplete: 'off' }
+                  }
+                  placeholder="Company name..."
+                  options={companiesArray}
+                />
+                {companyName.touched && companyName.error && <div>{companyName.error}</div>}
               </div>
             </div>
           </div>
+          {this.props.appState.companyName &&
+            <AppointmentFormDateTimePicker
+              appState={this.props.appState}
+            />
+          }
           <div className="form-footer">
             <div className="row">
               <div className="col-xs-6 text-left">
@@ -85,6 +125,7 @@ class AppointmentFormFirstPage extends Component {
 
 AppointmentFormFirstPage.propTypes = {
   appState: PropTypes.object.isRequired,
+  selectCompany: PropTypes.func.isRequired,
   fields: PropTypes.object.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   dispatch: PropTypes.func.isRequired
