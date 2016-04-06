@@ -6,29 +6,27 @@ class AppointmentFormDateTimePicker extends Component {
   constructor(props) {
     super(props);
     this.timeRows = [];
+    this.showTimes = this.showTimes;
   }
 
   setEvent (v) {
-    console.log(v);
+    this.props.selectTime(v);
   }
 
   showTimes (day) {
+    this.props.selectDay(day);
     this.timeRows = [];
     _.each(this.props.appState.formattedTimes[day], (v) => {
       let startTime = moment(v.startTime);
-      let visibleTime = startTime.format("h:mm");
+      let visibleTime = startTime.format("h:mm A");
       this.timeRows.push(<div onClick={this.setEvent.bind(this, v)}>{visibleTime}</div>);
-    });
-
-    this.timeRows = _.sortBy(this.timeRows, (o) => {
-      return o;
     });
   }
 
   render() {
     let dayRows = [];
     this.props.appState.days.forEach( (day) => {
-      dayRows.push(<div onClick={this.showTimes(day)}>{day}</div>);
+      dayRows.push(<div onClick={this.showTimes.bind(this, day)}>{day}</div>);
     });
     return (
       <div className="row">
