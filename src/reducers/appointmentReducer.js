@@ -10,7 +10,7 @@ import _ from 'lodash';
 import moment from 'moment';
 
 const initialState = {
-  page: 2,
+  page: 1,
   companyName: '',
   availableTimes: [],
   formattedTimes: {},
