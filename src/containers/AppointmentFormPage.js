@@ -41,7 +41,13 @@ class AppointmentFormPage extends Component {
             selectTime={this.props.selectTime}
             />
         }
-        {this.props.appState.page === 2 && <AppointFormSecondPage previousPage={this.previousPage} onSubmit={this.nextPage}/>}
+        {this.props.appState.page === 2 &&
+          <AppointFormSecondPage
+            appState={this.props.appState}
+            previousPage={this.previousPage}
+            onSubmit={this.nextPage}
+            />
+        }
         {this.props.appState.page === 3 && <AppointFormThirdPage previousPage={this.previousPage} onSubmit={this.handleSubmit}/>}
         {this.props.appState.page === 4 && <AppointmentFormConfirmationPage appState={this.props.appState}/>}
       </div>

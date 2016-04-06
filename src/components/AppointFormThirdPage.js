@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import {reduxForm} from 'redux-form';
-export const fields = ['firstName', 'lastName', 'email', 'arg', 'sex', 'favoriteColor', 'employed', 'notes'];
+export const fields = ['firstName', 'lastName', 'email', 'gender', 'phone', 'dobMonth', 'dobDay', 'dobYear', 'favoriteColor', 'employed', 'notes'];
 // ^^ All fields on last form
 
 const validate = values => {
