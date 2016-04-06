@@ -1,7 +1,8 @@
 import {
   CHANGE_APPOINTMENT_PAGE,
-  GET_AVAILABLE_TIMES,
-  SELECT_COMPANY
+  SELECT_COMPANY,
+  SELECT_DAY,
+  SELECT_TIME
 } from '../constants/ActionTypes';
 import objectAssign from 'object-assign';
 import availableTimes from '../components/fakeAppointments.json';
@@ -12,7 +13,10 @@ const initialState = {
   page: 1,
   companyName: '',
   availableTimes: [],
-  formattedTimes: {}
+  formattedTimes: {},
+  days: [],
+  selectedDay: '',
+  selectedEvent: {}
 };
 
 export default function appointmentFormAppState(state = initialState, action) {
@@ -22,19 +26,29 @@ export default function appointmentFormAppState(state = initialState, action) {
     case SELECT_COMPANY:
     {
       let companyName = action.companyName;
-      let formattedDates = {};
+      let formattedTimes = {};
       _.each(availableTimes, (v, k) => {
         let startTime = moment(v.startTime);
         let day = startTime.format('YYYY-MM-DD');
-        if(_.has(formattedDates, day)) {
-          formattedDates[day].push(v);
+        if(_.has(formattedTimes, day)) {
+          formattedTimes[day].push(v);
         } else {
-          formattedDates[day] = [v];
+          formattedTimes[day] = [v];
         }
       });
+      let days = _.keys(formattedTimes);
+      let sortedDays = _.sortBy(days, function(k){
+          return k;
+      });
 
-      return objectAssign({}, state, { formattedTimes: formattedDates, availableTimes: availableTimes, companyName: companyName});
+
+      return objectAssign({}, state, { days: sortedDays, formattedTimes: formattedTimes, availableTimes: availableTimes, companyName: companyName});
     }
+
+    case SELECT_DAY:
+      return objectAssign({}, state, { selectedDay: action.selectedDay });
+    case SELECT_TIME:
+      return objectAssign({}, state, { selectedEvent: action.entireObject }); 
 		default:
 			return state;
 	}

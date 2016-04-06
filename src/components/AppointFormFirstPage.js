@@ -45,6 +45,10 @@ class AppointmentFormFirstPage extends Component {
     }
   }
 
+  setTime(time) {
+    this.props.selectTime(time);
+  }
+
   revealPicker(companyName) {
 
   }
@@ -104,6 +108,8 @@ class AppointmentFormFirstPage extends Component {
           {this.props.appState.companyName &&
             <AppointmentFormDateTimePicker
               appState={this.props.appState}
+              selectDay={this.props.selectDay}
+              selectTime={this.props.selectTime}
             />
           }
           <div className="form-footer">
@@ -126,6 +132,8 @@ class AppointmentFormFirstPage extends Component {
 AppointmentFormFirstPage.propTypes = {
   appState: PropTypes.object.isRequired,
   selectCompany: PropTypes.func.isRequired,
+  selectDay: PropTypes.func.isRequired,
+  selectTime: PropTypes.func.isRequired,
   fields: PropTypes.object.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   dispatch: PropTypes.func.isRequired
