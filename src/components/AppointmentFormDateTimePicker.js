@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import moment from 'moment';
 import _ from 'underscore';
+import AppointmentFormTimePicker from './AppointmentFormTimePicker';
 
 class AppointmentFormDateTimePicker extends Component {
   constructor(props) {
@@ -9,18 +10,8 @@ class AppointmentFormDateTimePicker extends Component {
     this.showTimes = this.showTimes;
   }
 
-  setEvent (v) {
-    this.props.selectTime(v);
-  }
-
   showTimes (day) {
-    this.props.selectDay(day);
-    this.timeRows = [];
-    _.each(this.props.appState.formattedTimes[day], (v) => {
-      let startTime = moment(v.startTime);
-      let visibleTime = startTime.format("h:mm A");
-      this.timeRows.push(<div onClick={this.setEvent.bind(this, v)}>{visibleTime}</div>);
-    });
+    this.props.selectDay(this.props.appState, day);
   }
 
   render() {
@@ -38,7 +29,12 @@ class AppointmentFormDateTimePicker extends Component {
         </div>
         <div className="col-lg-6 col-xs-12">
           <div>
-            {this.timeRows}
+            {this.props.appState.selectedDay &&
+              <AppointmentFormTimePicker
+                appState={this.props.appState}
+                selectTime={this.props.selectTime}
+              />
+            }
           </div>
         </div>
       </div>

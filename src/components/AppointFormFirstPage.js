@@ -42,6 +42,10 @@ class AppointmentFormFirstPage extends Component {
     let value = e.target.value;
     if(companiesArray.indexOf(value) !== -1) {
       this.props.selectCompany(this.props.appState, value);
+    } else {
+      this.props.selectCompany(this.props.appState, '');
+      this.props.selectDay(this.props.appState, '');
+      this.props.selectTime(this.props.appState, {});
     }
   }
 
@@ -107,6 +111,7 @@ class AppointmentFormFirstPage extends Component {
           </div>
           {this.props.appState.companyName &&
             <AppointmentFormDateTimePicker
+              key="randomID"
               appState={this.props.appState}
               selectDay={this.props.selectDay}
               selectTime={this.props.selectTime}

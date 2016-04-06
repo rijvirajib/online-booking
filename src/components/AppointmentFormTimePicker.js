@@ -7,13 +7,26 @@ class AppointmentFormTimePicker extends Component {
     super(props);
   }
 
+  setEvent (v) {
+    this.props.selectTime(this.props.appState, v);
+  }
+
   render() {
+    let timeRows = [];
+    _.each(this.props.appState.formattedTimes[this.props.appState.selectedDay], (v) => {
+      if(v.reserved !== false) {
+        return;
+      }
+      let startTime = moment(v.startTime);
+      let visibleTime = startTime.format("h:mm A");
+      timeRows.push(<div onClick={this.setEvent.bind(this, v)}>{visibleTime}</div>);
+    });
     return (
       <div className="row">
         <div className="col-lg-6 col-xs-12">
-          <h4>Choose a visit date for {this.props.appState.companyName}</h4>
           <div ref="test">
-
+            <h4>Times</h4>
+            {timeRows}
           </div>
         </div>
       </div>
@@ -24,7 +37,7 @@ class AppointmentFormTimePicker extends Component {
 
 AppointmentFormTimePicker.propTypes = {
   appState: PropTypes.object.isRequired,
-  selectedTime: PropTypes.func.isRequired
+  selectTime: PropTypes.func.isRequired
 };
 
 export default AppointmentFormTimePicker;
