@@ -36,10 +36,15 @@ class AppointmentFormFirstPage extends Component {
   constructor(props) {
     super(props);
     this.setCompany = this.setCompany.bind(this);
+    this.selectCompany = this.selectCompany.bind(this);
   }
 
   setCompany(e) {
     let value = e.target.value;
+    this.selectCompany(value);
+  }
+
+  selectCompany(value) {
     if(companiesArray.indexOf(value) !== -1) {
       this.props.selectCompany(this.props.appState, value);
     } else {
@@ -94,6 +99,7 @@ class AppointmentFormFirstPage extends Component {
                 <Typeahead
                   ref="typeahead"
                   onChange={this.setCompany}
+                  onOptionSelected={this.selectCompany}
                   className="form-group"
                   name= "companyName"
                   customClasses={
