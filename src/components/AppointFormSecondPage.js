@@ -28,14 +28,14 @@ class AppointFormSecondPage extends Component {
       } = this.props;
     return (<form onSubmit={handleSubmit}>
         <div>
-          <label>arg</label>
+          <label>Empty Label for testing</label>
           <div>
-            <input type="text" placeholder="arg" {...arg}/>
+            <input type="text" placeholder="Empty space test" {...arg}/>
           </div>
           {arg.touched && arg.error && <div>{arg.error}</div>}
         </div>
         <div>
-          <label>Sex</label>
+          <label>Gender</label>
           <div>
             <label>
               <input type="radio" {...sex} value="male" checked={sex.value === 'male'}/> Male

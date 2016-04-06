@@ -6,7 +6,7 @@ import * as actions from '../actions/AppointmentFormActions';
 import AppointFormFirstPage from '../components/AppointFormFirstPage';
 import AppointFormSecondPage from '../components/AppointFormSecondPage';
 import AppointFormThirdPage from '../components/AppointFormThirdPage';
-
+import AppointmentFormConfirmationPage from '../components/AppointmentFormConfirmationPage';
 
 class AppointmentFormPage extends Component {
   constructor(props) {
@@ -17,7 +17,7 @@ class AppointmentFormPage extends Component {
   }
 
   handleSubmit(data) {
-    //console.log('Submission received!', data);
+    this.props.changePage(this.props.appState, 4);
   }
 
   nextPage() {
@@ -43,6 +43,7 @@ class AppointmentFormPage extends Component {
         }
         {this.props.appState.page === 2 && <AppointFormSecondPage previousPage={this.previousPage} onSubmit={this.nextPage}/>}
         {this.props.appState.page === 3 && <AppointFormThirdPage previousPage={this.previousPage} onSubmit={this.handleSubmit}/>}
+        {this.props.appState.page === 4 && <AppointmentFormConfirmationPage appState={this.props.appState}/>}
       </div>
     );
   }
