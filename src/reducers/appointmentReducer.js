@@ -6,13 +6,11 @@ import {
 import objectAssign from 'object-assign';
 import availableTimes from '../components/fakeAppointments.json';
 import _ from 'lodash';
-import moment from 'moment';
 
 const initialState = {
   page: 1,
   companyName: '',
-  availableTimes: [],
-  days: []
+  availableTimes: []
 };
 
 export default function appointmentFormAppState(state = initialState, action) {
@@ -22,18 +20,7 @@ export default function appointmentFormAppState(state = initialState, action) {
     case SELECT_COMPANY:
     {
       let companyName = action.companyName;
-      let formattedTimes = {};
-      let days = [];
-      _.each(availableTimes, (i, v) => {
-        let startTime = moment(v.startTime);
-        let endTime = moment(v.endTime);
-        days.push(startTime.format('YYYY-MM-DD'));
-
-        let reserved = v.reserved;
-        let truckReservationId = v.truckReservationId;
-      });
-
-      return objectAssign({}, state, { days: days, availableTimes: availableTimes, companyName: companyName});
+      return objectAssign({}, state, { availableTimes: availableTimes, companyName: companyName});
     }
 		default:
 			return state;
