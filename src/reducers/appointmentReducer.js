@@ -27,7 +27,8 @@ export default function appointmentFormAppState(state = initialState, action) {
     {
       let companyName = action.companyName;
       let formattedTimes = {};
-      _.each(availableTimes, (v, k) => {
+      let sortedTimes = _.sortBy(availableTimes, 'startTime');
+      _.each(sortedTimes, (v, k) => {
         let startTime = moment(v.startTime);
         let day = startTime.format('YYYY-MM-DD');
         if(_.has(formattedTimes, day)) {
@@ -48,7 +49,7 @@ export default function appointmentFormAppState(state = initialState, action) {
     case SELECT_DAY:
       return objectAssign({}, state, { selectedDay: action.selectedDay });
     case SELECT_TIME:
-      return objectAssign({}, state, { selectedEvent: action.entireObject }); 
+      return objectAssign({}, state, { selectedEvent: action.entireObject });
 		default:
 			return state;
 	}
