@@ -1,3 +1,35 @@
 .alt-header {
   color: white;
 }
+.visitDatePanel {
+  border: 1px solid black;
+}
+.displayDays:hover {
+  background-color: #EEEEEE;
+  cursor: pointer;
+}
+.displayDays {
+  text-align: center;
+  font-weight: bold;
+  font-size: 24px;
+}
+.panel-selection {
+  height: 300px;
+  overflow-y: scroll;
+}
+
+.displayTimes:hover {
+  background-color: #EEEEEE;
+  cursor: pointer;
+}
+
+.selected {
+  background-color: #97ABB4;
+}
+
+.displayTimes {
+  text-align: center;
+  font-weight: bold;
+  font-size: 18px;
+  padding: 10px 0 10px 0;
+}

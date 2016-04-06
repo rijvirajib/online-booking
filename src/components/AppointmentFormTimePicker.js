@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import moment from 'moment';
 import _ from 'underscore';
-
+import classnames from 'classnames';
 class AppointmentFormTimePicker extends Component {
   constructor(props) {
     super(props);
@@ -13,22 +13,23 @@ class AppointmentFormTimePicker extends Component {
 
   render() {
     let timeRows = [];
-    _.each(this.props.appState.formattedTimes[this.props.appState.selectedDay], (v) => {
+    _.each(this.props.appState.formattedTimes[this.props.appState.selectedDay], (v, i) => {
+      let classes = classnames('displayTimes', {selected: v.truckReservationId === this.props.appState.selectedEvent.truckReservationId});
       if(v.reserved !== false) {
         return;
       }
       let startTime = moment(v.startTime);
       let visibleTime = startTime.format("h:mm A");
-      timeRows.push(<div onClick={this.setEvent.bind(this, v)}>{visibleTime}</div>);
+      timeRows.push(<div className={classes} key={i} onClick={this.setEvent.bind(this, v)}>{visibleTime}</div>);
     });
     return (
-      <div className="row">
-        <div className="col-lg-6 col-xs-12">
-          <div ref="test">
-            <h4>Times</h4>
-            {timeRows}
+      <div>
+        <h4>Times</h4>
+          <div className="panel panel-default panel-selection">
+            <div className="panel-body">
+              {timeRows}
+            </div>
           </div>
-        </div>
       </div>
     );
   }

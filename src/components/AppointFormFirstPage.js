@@ -58,10 +58,6 @@ class AppointmentFormFirstPage extends Component {
     this.props.selectTime(time);
   }
 
-  revealPicker(companyName) {
-
-  }
-
   render() {
     const {
       fields: {firstName, lastName, email, companyName},
@@ -117,7 +113,6 @@ class AppointmentFormFirstPage extends Component {
           </div>
           {this.props.appState.companyName &&
             <AppointmentFormDateTimePicker
-              key="randomID"
               appState={this.props.appState}
               selectDay={this.props.selectDay}
               selectTime={this.props.selectTime}
