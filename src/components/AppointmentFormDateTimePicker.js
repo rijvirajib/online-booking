@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import moment from 'moment';
-import _ from 'underscore';
+import _ from 'lodash';
 import classnames from 'classnames';
 import AppointmentFormTimePicker from './AppointmentFormTimePicker';
 
