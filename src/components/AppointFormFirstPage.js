@@ -4,6 +4,7 @@ import { Link } from 'react-router';
 import { isEmail } from 'validator';
 import _ from 'lodash';
 import AppointmentFormDateTimePicker from './AppointmentFormDateTimePicker';
+import classnames from 'classnames';
 const Typeahead = require('react-typeahead').Typeahead;
 export const fields = ['firstName', 'lastName', 'email', 'companyName'];
 export const companiesArray = ['American Express', 'Master Card', 'VISA', 'Discover', 'Federal Express', 'UPS'];
@@ -24,10 +25,6 @@ const validate = values => {
     errors.email = 'Required';
   } else if (!isEmail(values.email)) {
     errors.email = 'Email is invalid';
-  }
-
-  if(!values.companyName) {
-    errors.companyName = 'Required';
   }
   return errors;
 };
@@ -59,6 +56,7 @@ class AppointmentFormFirstPage extends Component {
   }
 
   render() {
+    let submitButtonClasses = classnames('btn btn-primary', {disabled: _.isEmpty(this.props.appState.selectedEvent)});
     const {
       fields: {firstName, lastName, email, companyName},
       handleSubmit
@@ -124,7 +122,7 @@ class AppointmentFormFirstPage extends Component {
                 <span>{this.props.appState.page}</span> of <span>4</span>
               </div>
               <div className="col-xs-6 text-right">
-                <button className="btn btn-primary" type="submit">Continue</button>
+                <button className={submitButtonClasses} type="submit">Continue</button>
               </div>
             </div>
           </div>

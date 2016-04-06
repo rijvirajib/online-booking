@@ -23,7 +23,7 @@
   cursor: pointer;
 }
 
-.selected {
+.selected, .selected:hover {
   background-color: #97ABB4;
 }
 
@@ -32,4 +32,9 @@
   font-weight: bold;
   font-size: 18px;
   padding: 10px 0 10px 0;
+}
+
+.typeahead-selector {
+  position: absolute;
+  list-style: none;
 }
